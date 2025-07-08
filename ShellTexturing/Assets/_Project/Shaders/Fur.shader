@@ -22,6 +22,16 @@ Shader "Unlit/Fur"
             HLSLPROGRAM //we write a HLSLPROGRAM. alternative would be CGPROGRAM, CGPROGRAM inncludes unities built-in shader files, CG seems to be outdated and no longer state of the art?
             #pragma exclude_renderers gles gles3 glcore //shader does not compile for gles gles3 and glcore
             #pragma multi_compile_fog //allows different types of fog (off/linear/exp/exp2)
+
+                 //lighting and shadow keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma multi_compile _ _FORWARD_PLUS //requried for blingPhong lighting in unity6
+
+
             #include "./Fur.hlsl" //code is in fur.hlsl file
             #pragma vertex vert //vertex function is called vert
             #pragma require geometry //include the geometry stage in our shader

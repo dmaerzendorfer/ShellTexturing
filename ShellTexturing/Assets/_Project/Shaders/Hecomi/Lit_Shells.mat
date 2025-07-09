@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fur_Shells
-  m_Shader: {fileID: 4800000, guid: ebecd306efafdca48ab8c5a5695ba481, type: 3}
+  m_Name: Lit_Shells
+  m_Shader: {fileID: 4800000, guid: f9cee76e155a4aea8530ca8db3271730, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,18 +29,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FurMap:
         m_Texture: {fileID: 2800000, guid: 6118f03ff1e0a224885654f05ed104bc, type: 3}
-        m_Scale: {x: 10, y: 10}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaCutout: 0.1
-    - _Occlusion: 1.02
-    - _ShellAmount: 48
-    - _ShellCount: 10
-    - _ShellStep: 0.0051
+    - _AlphaCutout: 0.18
+    - _Metallic: 0.5
+    - _Occlusion: 0.94
+    - _RimLightIntensity: 0.5
+    - _RimLightPower: 6
+    - _ShadowExtraBias: 0
+    - _ShellAmount: 28
+    - _ShellStep: 0.01
+    - _Smoothness: 0.5
     m_Colors:
-    - _BaseColor: {r: 0.082377926, g: 0.30817598, b: 0.028104069, a: 1}
-    - _FurColor: {r: 0.32766294, g: 1, b: 0, a: 1}
-    - _TopColor: {r: 0.09344954, g: 0.6603774, b: 0.09344954, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseMove: {r: -1.53, g: 3.43, b: 0, a: 1.61}
+    - _WindFreq: {r: 0.5, g: 0.7, b: 0.9, a: 1}
+    - _WindMove: {r: 1.92, g: 1.14, b: 0.2, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

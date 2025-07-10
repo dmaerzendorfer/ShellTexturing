@@ -14,10 +14,24 @@
         _BaseMove( "Base Move" , Vector) = ( 0.0 , 0.0 , 0.0 , 3.0 )
         _WindFreq( "Wind Freq" , Vector) = ( 0.5 , 0.7 , 0.9 , 1.0 )
         _WindMove( "Wind Move" , Vector) = ( 0.2 , 0.3 , 0.2 , 1.0 )
+//        [Header(Emission)][Space]
+//        [HDR]
+//        _Emission ("Emission", Color) = (1,1,1,1)
+//        _UseEmission ("Use Emission", Float) = 1
+//        _EmissionStart("Emission Start Layer", Range( 0.0 , 1.0 )) = 0
+//        _EmissionEnd("Emission End Layer", Range( 0.0 , 1.0 )) = 0
         [Header(Lighting)][Space]
         _RimLightPower("Rim Light Power", Range(1.0, 20.0)) = 6.0
         _RimLightIntensity("Rim Light Intensity", Range(0.0, 1.0)) = 0.5
         _ShadowExtraBias("Shadow Extra Bias", Range(-1.0, 1.0)) = 0.0
+
+        [Header(Blending)][Space]
+        [Enum(UnityEngine.Rendering.BlendMode)]
+        _SrcFactor("Src Factor", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)]
+        _DstFactor("Dst Factor", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)]
+        _Opp("Blend Operation", Float) = 0
 
     }
     SubShader
@@ -34,6 +48,15 @@
         ZWrite On
         Cull Back
 
+        //blend sourceFator destinationFactor
+        //src = what my frag returns
+        //dest = what is already in the frameBuffer
+        //blendOp how they blend
+        // so basically => color = src*srcFactor blendOp(eG -, *, min,max,reverseSubstract etc) dst*dstFactor
+
+        Blend [_SrcFactor] [_DstFactor]
+        BlendOp [_Opp]
+
         Pass
         {
             Name "ForwardLit"
@@ -41,11 +64,12 @@
             {
                 "LightMode" = "UniversalForward"
             }
+            
+            
             HLSLPROGRAM
             #define _SPECULARHIGHLIGHTS_OFF
-            #define _MAIN_LIGHT_SHADOWS //wether we calc shadowcoords or not
 
-
+            
             #pragma shader_feature _ _FORWARD_PLUS
             #pragma shader_feature_fragment _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma shader_feature_fragment _ _ADDITIONAL_LIGHT_SHADOWS
@@ -88,7 +112,7 @@
             #pragma fragment frag
             ENDHLSL
         }
-        Pass
+        /*Pass
         {
             Name "SecondForwardLit"
             Tags
@@ -99,6 +123,7 @@
             #define _SPECULARHIGHLIGHTS_OFF
             #define _MAIN_LIGHT_SHADOWS //wether we calc shadowcoords or not
 
+            float _PassShellOffset=14;
 
             #pragma shader_feature _ _FORWARD_PLUS
             #pragma shader_feature_fragment _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -142,7 +167,7 @@
             #pragma fragment frag
             ENDHLSL
         }
-Pass
+        Pass
         {
             Name "ThirdForwardLit"
             Tags
@@ -151,9 +176,9 @@ Pass
             }
             HLSLPROGRAM
             #define _SPECULARHIGHLIGHTS_OFF
-            #define _MAIN_LIGHT_SHADOWS //wether we calc shadowcoords or not
 
-
+            float _PassShellOffset= 0;
+            
             #pragma shader_feature _ _FORWARD_PLUS
             #pragma shader_feature_fragment _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma shader_feature_fragment _ _ADDITIONAL_LIGHT_SHADOWS
@@ -195,7 +220,7 @@ Pass
             #pragma geometry geom
             #pragma fragment frag
             ENDHLSL
-        }
+        }*/
         Pass
         {
             Name "DepthOnly"

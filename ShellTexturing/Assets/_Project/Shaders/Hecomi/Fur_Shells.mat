@@ -35,7 +35,7 @@ Material:
     m_Floats:
     - _AlphaCutout: 0.12
     - _Occlusion: 0.86
-    - _ShellAmount: 41
+    - _ShellAmount: 53
     - _ShellCount: 10
     - _ShellStep: 0.01
     m_Colors:

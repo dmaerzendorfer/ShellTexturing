@@ -99,25 +99,22 @@ void AppendShellVertex(inout TriangleStream<Varyings> stream, Attributes input, 
     stream.Append(output);
 }
 
-CBUFFER_START(currIndex)
-float _CurrIndex = 0;
-CBUFFER_END
-
 //varyings struct is 23 float -> max is 1024 -> 1024/23 =~44 -> triangles are 3 vertex -> 44/3 =~14
 [maxvertexcount( 42 )] //42/3 = 14 layers max 
 void geom(triangle Attributes input[3], inout TriangleStream<Varyings> stream)
 {
-    //using _CurrIndex constant buffer as a counter between passes
-    //first pass does up to 14 layers
+    //using _CurrIndex buffer as a counter between passes
+    //first pass does up to _PassShellOffset layers
     //second pass also does up to 14 layers
     //etc currently schedule 3 passes for up to 42 layers
-    int amount = min(_ShellAmount, _CurrIndex + 14);
-    [loop] for (; _CurrIndex < amount; ++_CurrIndex)
-    // [loop] for (int i = 0; i < _ShellAmount; ++i)
+    //float amount = min(_ShellAmount, _PassShellOffset + 14);
+    //didnt work, scrapping it, cant get past the maxvertexcount very easily...
+    //[loop] for (int i = _PassShellOffset; i < amount; ++i)
+    [loop] for (int i = 0; i < _ShellAmount; ++i)
     {
-        [unroll] for (float j = 0; j < 3; ++j)
+        [unroll] for (int j = 0; j < 3; ++j)
         {
-            AppendShellVertex(stream, input[j], _CurrIndex);
+            AppendShellVertex(stream, input[j], i);
         }
         stream.RestartStrip();
     }
@@ -164,6 +161,11 @@ void ApplyRimLight(inout float3 color, float3 posWS, float3 viewDirWS, float3 no
     #endif
 }
 
+float4 _Emission;
+float _UseEmission;
+float _EmissionStart;
+float _EmissionEnd;
+
 float4 frag(Varyings input) : SV_Target
 {
     float4 furColor = SAMPLE_TEXTURE2D(_FurMap, sampler_FurMap, input.uv.zw);
@@ -191,6 +193,21 @@ float4 frag(Varyings input) : SV_Target
     float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - input.positionWS.xyz);
     ApplyRimLight(color.rgb, input.positionWS, viewDir, input.normalWS);
     color.rgb = MixFog(color.rgb, inputData.fogCoord.x);
+
+    // if (_UseEmission > 0.5)
+    // {
+    //     //fancy step function to avoid branching
+    //     // float shouldGlow = 1.0 - step(0.001, abs(input.layer - 0));
+    //     // float shouldGlow = step(_EmissionStart, input.layer) * step(input.layer, _EmissionEnd);
+    //     // if (input.layer == 0){
+    //     // if (input.layer >= _EmissionStart && input.layer <= _EmissionEnd)
+    //     // if(_CurrIndex == _ShellAmount-1)
+    //     {
+    //         color += (_Emission);
+    //     }
+    //
+    //     //color += (_Emission * shouldGlow);
+    // }
 
     return color;
 }

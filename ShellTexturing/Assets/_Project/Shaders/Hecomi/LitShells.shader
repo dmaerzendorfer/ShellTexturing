@@ -46,7 +46,7 @@
 
         LOD 100
         ZWrite On
-        Cull Back
+        Cull Off
 
         //blend sourceFator destinationFactor
         //src = what my frag returns

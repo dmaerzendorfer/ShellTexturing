@@ -7,17 +7,18 @@ namespace _Project.Scripts.Runtime
     {
         public TweenSettings<Quaternion> rotateTweenSettings;
         public TweenSettings<float> yPosTweenSettings;
-        public TweenSettings<Vector3> scaleTweenSettings;
+        public Renderer renderer;
 
         private Tween _rotateTween;
         private Tween _yTween;
-        private Tween _scaleTween;
+        private Sequence _furSequence;
+
+        private Material _mat;
+        private static readonly int BaseMove = Shader.PropertyToID("_BaseMove");
 
         private void Start()
         {
-            _scaleTween = Tween.Scale(gameObject.transform, scaleTweenSettings);
-            _yTween = Tween.PositionY(gameObject.transform, yPosTweenSettings);
-            _rotateTween = Tween.LocalRotation(gameObject.transform, rotateTweenSettings);
+            _mat = renderer.material;
         }
 
         private void OnValidate()
@@ -25,13 +26,23 @@ namespace _Project.Scripts.Runtime
             if (Application.isPlaying)
             {
                 _rotateTween.Stop();
-                _rotateTween = Tween.LocalRotation(gameObject.transform, rotateTweenSettings);
+                _rotateTween = Tween.LocalRotation(transform, rotateTweenSettings);
 
                 _yTween.Stop();
-                _yTween = Tween.PositionY(gameObject.transform, yPosTweenSettings);
+                _yTween = Tween.LocalPositionY(gameObject.transform, yPosTweenSettings);
 
-                _scaleTween.Stop();
-                _scaleTween = Tween.Scale(gameObject.transform, scaleTweenSettings);
+                _furSequence.Stop();
+                _furSequence = Sequence.Create(-1, CycleMode.Restart, Ease.Linear).Chain(
+                    Tween.Custom(0, 1f, 1f, (float t) =>
+                    {
+                        Vector4 movement = new Vector4(0, -(float)(9.81 - 9.81 * t), 0, 1);
+                        _mat.SetVector(BaseMove, movement);
+                    }, Ease.OutQuad)).Chain(
+                    Tween.Custom(0, 1f, 1f, (float t) =>
+                    {
+                        Vector4 movement = new Vector4(0, (float)(0 + 9.81 * t), 0, 1);
+                        _mat.SetVector(BaseMove, movement);
+                    }, Ease.InQuad));
             }
         }
     }

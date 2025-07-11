@@ -74,7 +74,7 @@ void AppendShellVertex(inout TriangleStream<Varyings> stream, Attributes input, 
 
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
     VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
-
+    
     float moveFactor = pow(abs((float)index / _ShellAmount), _BaseMove.w);
     float3 posOS = input.positionOS.xyz;
     float3 windAngle = _Time.w * _WindFreq.xyz;

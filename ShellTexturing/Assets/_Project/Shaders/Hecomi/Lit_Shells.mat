@@ -24,35 +24,35 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-        m_Scale: {x: 5, y: 5}
+        m_Texture: {fileID: 2800000, guid: aa4edf22eccf815439404995da3691dc, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FurMap:
-        m_Texture: {fileID: 2800000, guid: 767d59d3d5b4ec14c8c8cbd3318974ee, type: 3}
-        m_Scale: {x: 10, y: 5}
+        m_Texture: {fileID: 2800000, guid: 6118f03ff1e0a224885654f05ed104bc, type: 3}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaCutout: 0.198
+    - _AlphaCutout: 0.216
     - _DstFactor: 0
     - _EmissionEnd: 0
     - _EmissionStart: 0
     - _Metallic: 0.5
-    - _Occlusion: 0.66
+    - _Occlusion: 0.5
     - _Opp: 0
     - _RimLightIntensity: 0.5
     - _RimLightPower: 6
     - _ShadowExtraBias: 0
     - _ShellAmount: 42
-    - _ShellStep: 0.0016
+    - _ShellStep: 0.00413
     - _Smoothness: 0.5
     - _SrcFactor: 1
     - _UseEmission: 9.95
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseMove: {r: -0.65, g: -6.23, b: 0, a: 1.61}
+    - _BaseMove: {r: 0, g: -2.15, b: 0, a: 1}
     - _Emission: {r: 166.63574, g: 766.9963, b: 94.06548, a: 1}
-    - _WindFreq: {r: 0, g: 0, b: 0, a: 1}
-    - _WindMove: {r: 1.92, g: 1.14, b: 0.2, a: 1}
+    - _WindFreq: {r: 0, g: 0, b: 0, a: 0}
+    - _WindMove: {r: 1, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
